@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paddleSpeed: 5
   paddleClamp: 3.76
+  paddlePlayer: 1
 --- !u!50 &4799021253226570089
 Rigidbody2D:
   serializedVersion: 4

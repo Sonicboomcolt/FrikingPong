@@ -15,6 +15,8 @@ public class GameplayGoal : MonoBehaviour
             GameplayMaster.CallUpdateUIScore();
             GameplayMaster.CallResetBall();
             GameplayMaster.CallLaunchBall();
+
+            AudioController.instance.PlayBallGoal();
         }
     }
 }

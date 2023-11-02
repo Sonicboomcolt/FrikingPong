@@ -89,6 +89,8 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ballSpeed += ballSpeedAdd;
+        AudioController.instance.PlayBallHit();
+
 
         ContactPoint2D contact = collision.GetContact(0);
         Vector2 contactPoint = contact.point;

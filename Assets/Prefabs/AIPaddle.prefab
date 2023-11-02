@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paddleSpeed: 8
   paddleClamp: 3.76
+  paddlePlayer: 2
   falseMovementAmount: {x: 1.5, y: 2.5}
   ballDetectDistance: 7.5
   middleDistanceRange: 2
