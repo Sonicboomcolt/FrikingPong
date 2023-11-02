@@ -149,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57031947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.91, z: 0}
+  m_LocalPosition: {x: 0, y: -4.85, z: 0}
   m_LocalScale: {x: 18.257812, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,7 +325,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4093127605525931636, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4093127605525931636, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -856,8 +856,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 188674789}
-  - {fileID: 1533011284}
   - {fileID: 886455176}
+  - {fileID: 1533011284}
   - {fileID: 1205283050}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -1925,7 +1925,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4093127605525931636, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4093127605525931636, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1967,14 +1967,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4093127605525931637, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
-      propertyPath: paddleSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4093127605525931637, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
-      propertyPath: ballDetectDistance
-      value: 7.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4093127605525931643, guid: a4df6a669ea782b4b9237d766ddc6ec5, type: 3}
       propertyPath: m_Name
       value: AIPaddle
@@ -1991,10 +1983,6 @@ PrefabInstance:
     - target: {fileID: 4799021253226570090, guid: ac49c866f45054b4fb147cd830dd26bc, type: 3}
       propertyPath: m_Name
       value: PlayerPaddle
-      objectReference: {fileID: 0}
-    - target: {fileID: 4799021253226570090, guid: ac49c866f45054b4fb147cd830dd26bc, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4799021253226570091, guid: ac49c866f45054b4fb147cd830dd26bc, type: 3}
       propertyPath: m_RootOrder

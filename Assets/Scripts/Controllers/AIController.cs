@@ -75,7 +75,7 @@ public class AIController : PaddleController
     {
         base.PaddleHitEvent();
 
-        playerIsWinning = GameplayScoreHandler.instance.ReturnScore(1) >= GameplayScoreHandler.instance.ReturnScore(2);
+        playerIsWinning = GameplayScoreHandler.instance.ReturnScore(1) > GameplayScoreHandler.instance.ReturnScore(2);
 
         movementRNG = Random.Range(0, 100);
 
