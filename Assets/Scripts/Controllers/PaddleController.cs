@@ -14,11 +14,13 @@ public abstract class PaddleController : MonoBehaviour
     private void OnEnable()
     {
         GameplayMaster.OnPaddleHit += PaddleHitEvent;
+        GameplayMaster.OnResetBall += PaddleHitEvent;
     }
 
     private void OnDisable()
     {
         GameplayMaster.OnPaddleHit -= PaddleHitEvent;
+        GameplayMaster.OnResetBall -= PaddleHitEvent;
     }
 
     /// <summary>

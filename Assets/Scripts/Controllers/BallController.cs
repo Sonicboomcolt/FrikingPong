@@ -8,11 +8,15 @@ public class BallController : MonoBehaviour
     private Rigidbody2D ballRigidbody; //The Rigidbody on the ball.
     private Vector2 startingDir; //The starting direction of the ball.
     private Collider2D ourCollider;
+    private Vector3 predectedSpot;
+
 
     [Tooltip("The speed that the ball will apply force.")]
     private float baseBallSpeed;
     [SerializeField] private float ballSpeed; //The speed that the ball will apply force.
     [SerializeField] private float ballSpeedAdd; //How much we add to the balls speed every bounce.
+    [SerializeField] private Vector2 predictionTimeRange;
+    private float newPredectRange;
 
     private void Start()
     {
@@ -130,5 +134,20 @@ public class BallController : MonoBehaviour
         {
             PushBall(Vector2.right);
         }
+
+        newPredectRange = Random.Range(predictionTimeRange.x, predictionTimeRange.y);
+    }
+
+    public Vector3 ReturnPredectedData()
+    {
+        predectedSpot = Vector2.LerpUnclamped(transform.position, transform.position + (Vector3)ballRigidbody.velocity, newPredectRange);
+        return predectedSpot;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!ballRigidbody) return;
+        var predectedGizmo = Vector2.LerpUnclamped(transform.position, transform.position + (Vector3)ballRigidbody.velocity, newPredectRange);
+        Gizmos.DrawCube(predectedGizmo, Vector3.one);
     }
 }

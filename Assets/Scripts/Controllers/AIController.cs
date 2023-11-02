@@ -10,14 +10,17 @@ public class AIController : PaddleController
     [Header("AI Data")]
     [SerializeField] private Vector2 falseMovementAmount;
     [SerializeField] private float ballDetectDistance;
-    [SerializeField] private float middleDistanceRange;
+    [SerializeField] private float ballDetectMoveOffset;
 
     private float inaccuateRNG;
     private float inputValueRNG;
     private bool isInaccuate;
-    private bool playerIsWinning;
+    private bool otherPlayerIsWinning;
 
     private float movementRNG;
+
+    [Header("AI Data")]
+    public bool ALWAYS_PREDICT;
 
     private void Start()
     {
@@ -28,21 +31,20 @@ public class AIController : PaddleController
     private void Update()
     {
         if (!ball) return;
-
-
-        float distanceFromBall = Vector2.Distance(transform.position, ball.transform.position);
-
-        if(distanceFromBall >= ballDetectDistance)
+        if (!ALWAYS_PREDICT)
         {
-            if(movementRNG >= 50)
+            float distanceFromBall = Vector2.Distance(transform.position, ball.transform.position);
+
+            if (distanceFromBall >= ballDetectDistance)
             {
-                if (ball.transform.position.y >= middleDistanceRange)
+                //Sometimes predect the movment of the ball.
+                if (movementRNG >= 50)
                 {
-                    SetVerticalInputValue(-1);
+                    AIPredectBallMovement();
                 }
-                else if (ball.transform.position.y <= middleDistanceRange)
+                else
                 {
-                    SetVerticalInputValue(1);
+                    AITrackBallMovement();
                 }
             }
             else
@@ -52,34 +54,56 @@ public class AIController : PaddleController
         }
         else
         {
-            AITrackBallMovement();
+            AIPredectBallMovement();
         }
 
         VerticalInput(verticalInput);
         MovePaddle();
     }
 
+    private void AIPredectBallMovement()
+    {
+        var ballPredectedValue = ball.ReturnPredectedData();
+
+        if (ballPredectedValue.y > transform.position.y)
+        {
+            SetVerticalInputValue(1);
+        }
+        else if (ballPredectedValue.y < transform.position.y)
+        {
+            SetVerticalInputValue(-1);
+        }
+    }
+
     private void AITrackBallMovement()
     {
-        if ((ball.transform.position.y + inputValueRNG) > transform.position.y) { SetVerticalInputValue(1); }    //Move up.
-        if (ball.transform.position.y == transform.position.y) { verticalInput = 0; }   //Don't move.
-        if ((ball.transform.position.y - inputValueRNG) < transform.position.y) { SetVerticalInputValue(-1); }   //Move Down.
+        if ((ball.transform.position.y + inputValueRNG) > transform.position.y + ballDetectMoveOffset) { SetVerticalInputValue(1); }    //Move up.
+        if ((ball.transform.position.y - inputValueRNG) < transform.position.y - ballDetectMoveOffset) { SetVerticalInputValue(-1); }   //Move Down.
+
+        if (ball.transform.position.y < transform.position.y + ballDetectMoveOffset && ball.transform.position.y > transform.position.y - ballDetectMoveOffset) { SetVerticalInputValue(0); }    //Move None.
     }
 
     private void SetVerticalInputValue(float newValue)
     {
-        verticalInput = Mathf.Lerp(verticalInput, newValue, Time.deltaTime * paddleSpeed);
+        verticalInput = Mathf.Clamp(Mathf.Lerp(verticalInput, newValue, Time.deltaTime * paddleSpeed), -1, 1);
+        //verticalInput = newValue;
     }
 
     public override void PaddleHitEvent()
     {
         base.PaddleHitEvent();
 
-        playerIsWinning = GameplayScoreHandler.instance.ReturnScore(1) > GameplayScoreHandler.instance.ReturnScore(2);
+        var otherPlayer = 0;
+
+        //This is a very hard coded way of doing it, but it works for now.
+        if(paddlePlayer == 1) { otherPlayer = 2; }
+        if(paddlePlayer == 2) { otherPlayer = 1; }
+
+        otherPlayerIsWinning = GameplayScoreHandler.instance.ReturnScore(paddlePlayer) > GameplayScoreHandler.instance.ReturnScore(otherPlayer);
 
         movementRNG = Random.Range(0, 100);
 
-        if (!playerIsWinning)
+        if (!otherPlayerIsWinning)
         {
             inaccuateRNG = Random.Range(0, 100);
 
@@ -96,7 +120,7 @@ public class AIController : PaddleController
         }
         else
         {
-            inputValueRNG = isInaccuate ? ball.ReturnBallSpeed() : 0;
+            inputValueRNG = isInaccuate ? ball.ReturnPredectedData().y : 0;
             isInaccuate = false;
         }
     }

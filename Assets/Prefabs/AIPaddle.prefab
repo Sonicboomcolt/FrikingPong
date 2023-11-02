@@ -162,7 +162,8 @@ MonoBehaviour:
   paddlePlayer: 2
   falseMovementAmount: {x: 1.5, y: 2.5}
   ballDetectDistance: 7.5
-  middleDistanceRange: 2
+  ballDetectMoveOffset: 0.5
+  ALWAYS_PREDICT: 0
 --- !u!50 &4093127605525931638
 Rigidbody2D:
   serializedVersion: 4
