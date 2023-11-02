@@ -10,7 +10,9 @@ public class BallController : MonoBehaviour
     private Collider2D ourCollider;
 
     [Tooltip("The speed that the ball will apply force.")]
+    private float baseBallSpeed;
     [SerializeField] private float ballSpeed; //The speed that the ball will apply force.
+    [SerializeField] private float ballSpeedAdd; //How much we add to the balls speed every bounce.
 
     private void Start()
     {
@@ -21,6 +23,9 @@ public class BallController : MonoBehaviour
         GameplayMaster.OnGameStateChanged += BallStart;
         GameplayMaster.OnLaunchBall += LauchBall;
         GameplayMaster.OnResetBall += ResetBall;
+
+        //Set the base speed so we can reset back to it.
+        baseBallSpeed = ballSpeed;
     }
 
     private void OnDisable()
@@ -28,6 +33,11 @@ public class BallController : MonoBehaviour
         GameplayMaster.OnGameStateChanged -= BallStart;
         GameplayMaster.OnLaunchBall -= LauchBall;
         GameplayMaster.OnResetBall -= ResetBall;
+    }
+
+    public float ReturnBallSpeed()
+    {
+        return ballSpeed;
     }
 
     private void LauchBall()
@@ -61,6 +71,7 @@ public class BallController : MonoBehaviour
         //This might not be the best way of doing it, but since the ball starts at 0,0,0. Might as well.
         transform.position = Vector3.zero;
         ballRigidbody.velocity = Vector3.zero;
+        ballSpeed = baseBallSpeed;
     }
 
     /// <summary>
@@ -77,11 +88,13 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        ballSpeed += ballSpeedAdd;
+
         ContactPoint2D contact = collision.GetContact(0);
         Vector2 contactPoint = contact.point;
         Vector2 ownCenter = ourCollider.bounds.center;
 
-        if(contactPoint.y > ownCenter.y)
+        if (contactPoint.y > ownCenter.y)
         {
             PushBall(Vector2.down);
         }

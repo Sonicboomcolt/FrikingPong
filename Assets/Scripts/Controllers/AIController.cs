@@ -9,10 +9,12 @@ public class AIController : PaddleController
 
     [Header("AI Data")]
     [SerializeField] private Vector2 falseMovementAmount;
+    [SerializeField] private Vector2 imrpovedMovementAmount;
 
     private float RNG;
     private float inputValueRNG;
     private bool isInaccuate;
+    private bool playerIsWinning;
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public class AIController : PaddleController
     {
         if (!ball) return;
         if ((ball.transform.position.y + inputValueRNG) > transform.position.y) { verticalInput = Mathf.Lerp(verticalInput, 1, Time.deltaTime * paddleSpeed); }    //Move up.
-        //if (ball.transform.position.y == transform.position.y) { verticalInput = 0; }   //Don't move.
+        if (ball.transform.position.y == transform.position.y) { verticalInput = 0; }   //Don't move.
         if ((ball.transform.position.y - inputValueRNG) < transform.position.y) { verticalInput = Mathf.Lerp(verticalInput, -1, Time.deltaTime * paddleSpeed); }   //Move Down.
 
         VerticalInput(verticalInput);
@@ -35,17 +37,27 @@ public class AIController : PaddleController
     {
         base.PaddleHitEvent();
 
-        RNG = Random.Range(0, 100);
+        playerIsWinning = GameplayScoreHandler.instance.ReturnScore(1) >= GameplayScoreHandler.instance.ReturnScore(2);
 
-        if (RNG >= 50)
+        if (!playerIsWinning)
         {
-            isInaccuate = true;
+            RNG = Random.Range(0, 100);
+
+            if (RNG >= 50)
+            {
+                isInaccuate = true;
+            }
+            else
+            {
+                isInaccuate = false;
+            }
+
+            inputValueRNG = isInaccuate ? Random.Range(falseMovementAmount.x, falseMovementAmount.y) : 0;
         }
         else
         {
+            inputValueRNG = isInaccuate ? Random.Range(imrpovedMovementAmount.x, imrpovedMovementAmount.y) : 0;
             isInaccuate = false;
         }
-
-        inputValueRNG = isInaccuate ? Random.Range(falseMovementAmount.x, falseMovementAmount.y) : 0;
     }
 }

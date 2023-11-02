@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class GameplayScoreHandler : MonoBehaviour
 {
+    public static GameplayScoreHandler instance;
+
     [SerializeField] private int[] scores = new int[] { 0, 0 };
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void OnEnable()
     {
