@@ -72,6 +72,13 @@ public class BallController : MonoBehaviour
         transform.position = Vector3.zero;
         ballRigidbody.velocity = Vector3.zero;
         ballSpeed = baseBallSpeed;
+
+        //Clear the trail so it does not make an odd effect of it flying across the screen.
+        var trailRender = GetComponentInChildren<TrailRenderer>();
+        if(trailRender)
+        {
+            trailRender.Clear();
+        }
     }
 
     /// <summary>
@@ -96,6 +103,16 @@ public class BallController : MonoBehaviour
         Vector2 contactPoint = contact.point;
         Vector2 ownCenter = ourCollider.bounds.center;
 
+        var hitEffect = GameplayHitEffectPool.instance.GetPooledObject();
+        if(hitEffect != null)
+        {
+            hitEffect.transform.position = contact.point;
+            hitEffect.transform.LookAt(transform.position, Vector3.up);
+            hitEffect.SetActive(true);
+        }
+
+        //This can be done in a better way but have not found how to do it just yet.
+        //Once I come back to this I'll clean it up.
         if (contactPoint.y > ownCenter.y)
         {
             PushBall(Vector2.down);
