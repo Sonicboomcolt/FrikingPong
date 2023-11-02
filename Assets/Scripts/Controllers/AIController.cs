@@ -96,6 +96,7 @@ public class AIController : PaddleController
         var otherPlayer = 0;
 
         //This is a very hard coded way of doing it, but it works for now.
+        //Kind of?
         if(paddlePlayer == 1) { otherPlayer = 2; }
         if(paddlePlayer == 2) { otherPlayer = 1; }
 
