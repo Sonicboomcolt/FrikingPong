@@ -8,6 +8,9 @@ public abstract class PaddleController : MonoBehaviour
     [SerializeField] private float paddleClamp;
     private float verticalPos;
 
+    [Range(1, 2)]
+    [SerializeField] protected int paddlePlayer;
+
     private void OnEnable()
     {
         GameplayMaster.OnPaddleHit += PaddleHitEvent;
