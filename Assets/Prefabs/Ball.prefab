@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballSpeed: 7
   ballSpeedAdd: 0.15
-  predictionTimeRange: {x: 0, y: 5}
+  predictionTimeRange: {x: -0.5, y: 0.5}
 --- !u!50 &7358886134811908806
 Rigidbody2D:
   serializedVersion: 4
